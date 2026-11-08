@@ -267,7 +267,7 @@ if(/^\d{10,20}$/.test(PIXEL_ID)){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fb
 <h2>Um método simples para cuidar do que você <em>não vê</em></h2>
 <p><strong>A Colônia Invisível</strong> é um guia em PDF, em português, com linguagem direta e diagramas próprios, para quem está montando o primeiro aquário de água doce ou quer sair do básico.</p>
 <p>Você aprende a tratar o aquário como uma colônia de bactérias que precisa ser criada e cuidada. Depois, a rotina vira uma checagem de cerca de 15 minutos por semana.</p>
-<div class="ctaw"><a class="btn" href="https://pay.kiwify.com.br/JQiI3aQ" data-cta="solucao">Quero começar do jeito certo</a></div>
+<div class="ctaw"><a class="btn" href="https://pay.kiwify.com.br/JQiI3aQ" data-cta="solucao">Quero começar do jeito certo</a><p class="micro">Garantia de 7 dias · reembolso pela Kiwify</p></div>
 </div>
 <div class="art rv"><img src="img/paginas.webp" width="1100" height="733" loading="lazy" alt="Páginas internas do guia: ciclo do nitrogênio e leitura dos testes de água"></div>
 <!-- sistema em 4 etapas (rótulos tirados dos capítulos e benefícios da própria LP) -->
@@ -299,7 +299,7 @@ if(/^\d{10,20}$/.test(PIXEL_ID)){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fb
 <li class="cc gl rv"><h3>Do iniciante ao intermediário</h3><p>Próximos passos com segurança.</p></li>
 <li class="cc gl rv"><h3>Quando algo dá errado</h3><p>Um roteiro para agir com clareza.</p></li>
 </ol>
-<div class="ctaw rv" style="max-width:420px;margin-inline:auto"><a class="btn" href="https://pay.kiwify.com.br/JQiI3aQ" data-cta="capitulos">Quero meu guia agora</a></div>
+<div class="ctaw rv" style="max-width:420px;margin-inline:auto"><a class="btn" href="https://pay.kiwify.com.br/JQiI3aQ" data-cta="capitulos">Quero meu guia agora</a><p class="micro">Garantia de 7 dias · reembolso pela Kiwify</p></div>
 </div>
 </section>
 
@@ -351,7 +351,7 @@ if(/^\d{10,20}$/.test(PIXEL_ID)){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fb
 <div class="price"><small>R$</small>19,90</div>
 <div class="pmeta">Acesso imediato após a confirmação</div></div>
 <a class="btn" href="https://pay.kiwify.com.br/JQiI3aQ" data-cta="oferta">Quero o guia por R$ 19,90</a>
-<p class="micro">Pagamento seguro pela Kiwify · Pix ou cartão</p>
+<p class="micro">Pagamento seguro pela Kiwify · Pix ou cartão · garantia de 7 dias</p>
 <p class="micro" style="margin-top:10px">No checkout você poderá adicionar o audiobook com planilha de ciclagem (oferta opcional).</p>
 </div>
 </div>
@@ -380,7 +380,7 @@ if(/^\d{10,20}$/.test(PIXEL_ID)){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fb
 <details><summary>Como recebo o material?</summary><p>Por e-mail e na área de membros da Kiwify, logo após a confirmação do pagamento. Em PDF, para ler no celular, no computador ou imprimir.</p></details>
 <details><summary>Como funciona a garantia?</summary><p>Você tem 7 dias corridos após a compra para pedir o reembolso integral, sem burocracia, pela própria Kiwify.</p></details>
 <details><summary>O guia indica medicamentos para doenças?</summary><p>Não. O foco é prevenção e manejo. Em caso de doença, o guia orienta a observar e buscar um profissional veterinário de animais aquáticos.</p></details>
-<div class="ctaw" style="max-width:420px;margin-inline:auto"><a class="btn" href="https://pay.kiwify.com.br/JQiI3aQ" data-cta="faq">Quero o guia agora</a></div>
+<div class="ctaw" style="max-width:420px;margin-inline:auto"><a class="btn" href="https://pay.kiwify.com.br/JQiI3aQ" data-cta="faq">Quero o guia agora</a><p class="micro">Garantia de 7 dias · reembolso pela Kiwify</p></div>
 </div>
 </section>
 
@@ -422,10 +422,17 @@ new IntersectionObserver(function(e){e.forEach(function(x){vis.f=x.isIntersectin
 var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.08,rootMargin:'0px 0px -6% 0px'});
 document.querySelectorAll('.rv').forEach(function(e){io.observe(e)});
 })();
+// Repasse de UTMs (whitelist) aos links do checkout Kiwify; sem parametros, o link fica intacto.
+function utmHref(h,q){
+  if(!q||!/^https:\/\/pay\.kiwify\.com\.br\//.test(h))return h;
+  var K=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'],p=new URLSearchParams(q),u=new URL(h),n=0;
+  K.forEach(function(k){var v=p.get(k);if(v){u.searchParams.set(k,v);n++}});
+  return n?u.toString():h;
+}
 // Evento de clique no checkout (Pixel Meta) e repasse de UTMs ao checkout:
 document.querySelectorAll('[data-cta]').forEach(function(a){
   a.addEventListener('click',function(){ if(window.fbq){fbq('trackCustom','CliqueComprar');} if(window.gtag){gtag('event','CliqueComprar',{cta:a.getAttribute('data-cta')});} });
-  var h0=a.getAttribute('href'),q=location.search;if(q&&/^https?:/.test(h0)){a.setAttribute('href',h0+(h0.indexOf('?')<0?'?':'&')+q.slice(1));}
+  a.setAttribute('href',utmHref(a.getAttribute('href'),location.search));
 });
 </script>
 </body>
